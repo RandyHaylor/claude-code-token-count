@@ -150,6 +150,14 @@ def emit_deny(reason: str, system_message: str) -> None:
     raise SystemExit(0)
 
 
+def emit_hard_stop(stop_reason: str) -> None:
+    print(json.dumps({
+        "continue": False,
+        "stopReason": stop_reason,
+    }))
+    raise SystemExit(0)
+
+
 def unblock_instruction(code: str) -> str:
     return (
         "To unblock and provide hand off instruction to the agent for this session, "
@@ -162,6 +170,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Block Claude Code tool calls after a token threshold.")
     parser.add_argument("--threshold", type=int, default=900000, help="Maximum last_usage.all_observed_tokens before blocking.")
     parser.add_argument("--handoff-allowance", type=int, default=20, help="Tool calls granted after a valid unblock code.")
+    parser.add_argument(
+        "--behavior",
+        choices=("hard-stop", "deny"),
+        default="hard-stop",
+        help="hard-stop ends the whole turn with continue:false; deny blocks only the current tool call.",
+    )
     return parser.parse_args(argv)
 
 
@@ -211,6 +225,14 @@ def main(argv: list[str] | None = None) -> int:
 
     if over_threshold:
         code = usage.get("unblock_code", "000000")
+        stop_reason = (
+            f"Halted at context threshold ({tokens}/{args.threshold}). "
+            f"{unblock_instruction(str(code))}"
+        )
+        if save_error:
+            stop_reason += f" The hook could not update {usage_path}: {save_error}"
+        if args.behavior == "hard-stop":
+            emit_hard_stop(stop_reason)
         reason = (
             f"Agent blocked - hit early context threshold. "
             f"Current last_usage.all_observed_tokens={tokens}; threshold={args.threshold}. "
