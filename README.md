@@ -15,7 +15,7 @@ Suggested usage: install this skill once, then keep working normally. If you not
 ## Index
 
 - [Install](#install)
-- [Count A Session](#count-a-session)
+- [Quick Start](#quick-start)
 - [Manual And Tooling Use](#manual-and-tooling-use)
 - [Install The Token Gate Hook](#install-the-token-gate-hook)
 - [Notes](#notes)
@@ -45,24 +45,24 @@ git clone https://github.com/randyhaylor/claude-code-token-count.git "%USERPROFI
 git clone https://github.com/randyhaylor/claude-code-token-count.git "$env:USERPROFILE\.claude\skills\claude-code-token-count"
 ```
 
-## Count A Session
+## Quick Start
 
-From a direct transcript path:
+After installing the skill, ask Claude Code to set up or manage the guard in the current project with prompts like:
 
-```bash
-python3 scripts/get_token_count.py ~/.claude/projects/<encoded-project>/<session-id>.jsonl
+```text
+Set up token count blocking for this project.
 ```
 
-From a project cwd plus session id:
-
-```bash
-python3 scripts/get_token_count.py --cwd /path/to/project --session-id <session-id>
+```text
+Set up token count blocking for this project with a 900000 token limit.
 ```
 
-Compact JSON:
+```text
+Update the token count blocking limit for this project to 750000.
+```
 
-```bash
-python3 scripts/get_token_count.py --cwd /path/to/project --session-id <session-id> --json
+```text
+Remove token count blocking for this project.
 ```
 
 ## Manual And Tooling Use
