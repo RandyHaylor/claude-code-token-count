@@ -6,6 +6,8 @@ Report Claude Code token usage from local session JSONL files and optionally ins
 
 The value Claude Code displays for context usage has matched this script's `last_usage.all_observed_tokens` in real-session checks.
 
+Suggested usage: install this skill once, then keep working normally. If you notice a Claude Code session's context getting high, for example above 600k tokens, ask the agent to set up the token counting guard for that project.
+
 ## Install
 
 Clone the repo somewhere stable:
