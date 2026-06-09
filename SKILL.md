@@ -138,4 +138,10 @@ The paired `UserPromptSubmit` hook lets the user unblock a short handoff window 
 unblock 123456 write a handoff document
 ```
 
+When blocking, the gate should tell the user directly:
+
+```text
+To unblock and provide hand off instruction to the agent for this session, type "unblock 123456 <hand off instructions>". Suggested prompt: "unblock 123456 write a detailed handoff.md doc to allow another agent to continue this work"
+```
+
 The six-digit code is generated once and stored in `.claude/usage.json`. On a correct code, the prompt hook grants a small handoff allowance so the agent can write a summary or handoff document, then stop.

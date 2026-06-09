@@ -89,6 +89,12 @@ To allow a short handoff window, submit:
 unblock 123456 write a handoff document
 ```
 
+The block message includes a suggested prompt:
+
+```text
+unblock 123456 write a detailed handoff.md doc to allow another agent to continue this work
+```
+
 Use the six-digit code from `.claude/usage.json`.
 
 ## Notes

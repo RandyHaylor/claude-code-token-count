@@ -150,6 +150,14 @@ def emit_deny(reason: str, system_message: str) -> None:
     raise SystemExit(0)
 
 
+def unblock_instruction(code: str) -> str:
+    return (
+        "To unblock and provide hand off instruction to the agent for this session, "
+        f'type "unblock {code} <hand off instructions>". '
+        f'Suggested prompt: "unblock {code} write a detailed handoff.md doc to allow another agent to continue this work"'
+    )
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Block Claude Code tool calls after a token threshold.")
     parser.add_argument("--threshold", type=int, default=900000, help="Maximum last_usage.all_observed_tokens before blocking.")
@@ -206,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
         reason = (
             f"Agent blocked - hit early context threshold. "
             f"Current last_usage.all_observed_tokens={tokens}; threshold={args.threshold}. "
-            f"To permit a short handoff, ask the user to type: unblock {code} <handoff instructions>"
+            f"{unblock_instruction(str(code))}"
         )
         if save_error:
             reason += f" The hook could not update {usage_path}: {save_error}"
