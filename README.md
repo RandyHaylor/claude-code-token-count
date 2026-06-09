@@ -28,7 +28,9 @@ Clone directly into the Claude Code user-level skills folder:
 ```bash
 # Linux
 git clone https://github.com/randyhaylor/claude-code-token-count.git ~/.claude/skills/claude-code-token-count
+```
 
+```bash
 # macOS
 git clone https://github.com/randyhaylor/claude-code-token-count.git ~/.claude/skills/claude-code-token-count
 ```
