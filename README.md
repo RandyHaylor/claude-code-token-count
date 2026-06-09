@@ -6,6 +6,7 @@
 - Report Claude Code token usage from local session JSONL files.
 - Integrate live-session token count tracking into other tooling and hooks.
 - Claude Code session files include accurate token counts that are used to calculate token usage.
+- Can be installed as a skill and activated or adjusted by an AI agent for early token count threshold detection and agent blocking.
 
 ![Claude Code token gate block message](assets/claude-token-block-test.png)
 
