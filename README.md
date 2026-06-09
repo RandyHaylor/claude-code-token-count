@@ -10,14 +10,25 @@ Suggested usage: install this skill once, then keep working normally. If you not
 
 ## Install
 
-Clone the repo somewhere stable:
+Clone directly into the Claude Code user-level skills folder:
 
 ```bash
-git clone https://github.com/randyhaylor/claude-code-token-count.git
-cd claude-code-token-count
+# Linux
+git clone https://github.com/randyhaylor/claude-code-token-count.git ~/.claude/skills/claude-code-token-count
+
+# macOS
+git clone https://github.com/randyhaylor/claude-code-token-count.git ~/.claude/skills/claude-code-token-count
 ```
 
-The scripts use only the Python standard library. Use `python3` on macOS/Linux or `py -3` on Windows.
+```cmd
+REM Windows (Command Prompt)
+git clone https://github.com/randyhaylor/claude-code-token-count.git "%USERPROFILE%\.claude\skills\claude-code-token-count"
+```
+
+```powershell
+# Windows (PowerShell)
+git clone https://github.com/randyhaylor/claude-code-token-count.git "$env:USERPROFILE\.claude\skills\claude-code-token-count"
+```
 
 ## Count A Session
 
