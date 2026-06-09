@@ -4,6 +4,8 @@
 
 Report Claude Code token usage from local session JSONL files and optionally install a project-local hook that blocks tool calls after an early context threshold.
 
+Scripts can be used to integrate token count tracking for live sessions into other tooling and hooks.
+
 The value Claude Code displays for context usage has matched this script's `last_usage.all_observed_tokens` in real-session checks.
 
 ![Claude Code token gate block message](assets/claude-token-block-test.png)
