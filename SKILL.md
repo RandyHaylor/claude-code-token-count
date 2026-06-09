@@ -127,7 +127,7 @@ The `PreToolUse` hook should:
 - Read `payload["transcript_path"]`.
 - Compute `last_usage.all_observed_tokens`.
 - Write/update `<project>/.claude/usage.json`.
-- Stop the whole turn when `last_usage.all_observed_tokens` exceeds the threshold by returning top-level `continue: false`, a `stopReason` that includes the unblock code, and a matching `systemMessage` for an additional user-facing echo.
+- Stop the whole turn when `last_usage.all_observed_tokens` exceeds the threshold by returning top-level `continue: false` and a `stopReason` that includes the unblock code.
 
 The default threshold is `900000`. Users can edit it per project by changing `--threshold` in `.claude/settings.local.json`.
 
@@ -138,12 +138,11 @@ By default the gate uses hard-stop behavior:
 ```json
 {
   "continue": false,
-  "stopReason": "Halted at context threshold (<used>/<limit>). To unblock and provide hand off instruction to the agent for this session, type \"unblock <code> <hand off instructions>\". Suggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\"",
-  "systemMessage": "Halted at context threshold (<used>/<limit>). To unblock and provide hand off instruction to the agent for this session, type \"unblock <code> <hand off instructions>\". Suggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\""
+  "stopReason": "HALTED AT CONTEXT THRESHOLD (<used>/<limit>). TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type \"unblock <code> <hand off instructions>\". Suggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\""
 }
 ```
 
-This stops the turn entirely; the agent does not get to print its own explanation. The user sees `stopReason`, and Claude Code may also render `systemMessage`, so both must include the unblock code and instructions. To use the older one-tool-call denial behavior instead, add `--behavior deny` to the `token_usage_gate.py` command.
+This stops the turn entirely; the agent does not get to print its own explanation. The user sees `stopReason`, so it must include the unblock code and instructions. To use the older one-tool-call denial behavior instead, add `--behavior deny` to the `token_usage_gate.py` command.
 
 The paired `UserPromptSubmit` hook lets the user unblock a short handoff window by typing:
 
@@ -154,7 +153,7 @@ unblock 123456 write a handoff document
 When blocking, the gate should tell the user directly in `stopReason`:
 
 ```text
-To unblock and provide hand off instruction to the agent for this session, type "unblock 123456 <hand off instructions>". Suggested prompt: "unblock 123456 write a detailed handoff.md doc to allow another agent to continue this work"
+TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type "unblock 123456 <hand off instructions>". Suggested prompt: "unblock 123456 write a detailed handoff.md doc to allow another agent to continue this work"
 ```
 
 The six-digit code is generated once and stored in `.claude/usage.json`. On a correct code, the prompt hook grants a small handoff allowance so the agent can write a summary or handoff document, then stop.

@@ -150,20 +150,17 @@ def emit_deny(reason: str, system_message: str) -> None:
     raise SystemExit(0)
 
 
-def emit_hard_stop(stop_reason: str, system_message: str | None = None) -> None:
-    output: dict[str, Any] = {
+def emit_hard_stop(stop_reason: str) -> None:
+    print(json.dumps({
         "continue": False,
         "stopReason": stop_reason,
-    }
-    if system_message:
-        output["systemMessage"] = system_message
-    print(json.dumps(output))
+    }))
     raise SystemExit(0)
 
 
 def unblock_instruction(code: str) -> str:
     return (
-        "To unblock and provide hand off instruction to the agent for this session, "
+        "TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, "
         f'type "unblock {code} <hand off instructions>". '
         f'Suggested prompt: "unblock {code} write a detailed handoff.md doc to allow another agent to continue this work"'
     )
@@ -229,13 +226,13 @@ def main(argv: list[str] | None = None) -> int:
     if over_threshold:
         code = usage.get("unblock_code", "000000")
         stop_reason = (
-            f"Halted at context threshold ({tokens}/{args.threshold}). "
+            f"HALTED AT CONTEXT THRESHOLD ({tokens}/{args.threshold}). "
             f"{unblock_instruction(str(code))}"
         )
         if save_error:
             stop_reason += f" The hook could not update {usage_path}: {save_error}"
         if args.behavior == "hard-stop":
-            emit_hard_stop(stop_reason, stop_reason)
+            emit_hard_stop(stop_reason)
         reason = (
             f"Agent blocked - hit early context threshold. "
             f"Current last_usage.all_observed_tokens={tokens}; threshold={args.threshold}. "
