@@ -131,7 +131,7 @@ The `PreToolUse` hook should:
 
 The default threshold is `900000`. Users can edit it per project by changing `--threshold` in `.claude/settings.local.json`.
 
-Agent behavior: treat `--threshold`, `--behavior`, and `--handoff-allowance` as user-owned policy choices. Do not proactively offer to change them after installing or inspecting the hook. Do not alter them unless the user explicitly asks for a specific change, such as "set the threshold to 35000" or "switch to deny behavior." If the user asks what the settings mean, explain them without suggesting a change.
+Agent behavior: treat `--threshold`, `--behavior`, and `--handoff-allowance` as user-owned policy choices. Do not proactively offer to change them after installing or inspecting the hook. Do not alter them unless the user explicitly asks for a specific change. If the user asks what the settings mean, explain them without suggesting a change.
 
 By default the gate uses hard-stop behavior:
 
