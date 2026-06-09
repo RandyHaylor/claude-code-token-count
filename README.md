@@ -2,8 +2,8 @@
 
 # Claude Code Token Count
 
+- Detect an early token threshold to prevent hitting context limit or compacting accidentally.
 - Report Claude Code token usage from local session JSONL files.
-- Install a project-local hook that blocks tool calls after an early context threshold.
 - Integrate live-session token count tracking into other tooling and hooks.
 - Claude Code session files include accurate token counts that are used to calculate token usage.
 - Match Claude Code's displayed context usage with `last_usage.all_observed_tokens`.
