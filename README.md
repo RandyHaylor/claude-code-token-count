@@ -80,7 +80,7 @@ The gate writes and updates:
 When the session reaches the threshold, the hook blocks tool calls and shows:
 
 ```text
-HALTED AT CONTEXT THRESHOLD (<used>/<limit>)
+HALTED AT CONTEXT THRESHOLD (<used>/<limit>): The agent must wait and not say or do anything without further user direction
 
 TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type "unblock <code> <hand off instructions>".
 

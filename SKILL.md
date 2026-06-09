@@ -138,7 +138,7 @@ By default the gate uses hard-stop behavior:
 ```json
 {
   "continue": false,
-  "stopReason": "\\n\\nHALTED AT CONTEXT THRESHOLD (<used>/<limit>)\\n\\nTO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type \"unblock <code> <hand off instructions>\".\\n\\nSuggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\"\\n\\n"
+  "stopReason": "\\n\\nHALTED AT CONTEXT THRESHOLD (<used>/<limit>): The agent must wait and not say or do anything without further user direction\\n\\nTO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type \"unblock <code> <hand off instructions>\".\\n\\nSuggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\"\\n\\n"
 }
 ```
 

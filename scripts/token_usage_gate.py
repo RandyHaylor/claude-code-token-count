@@ -226,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
     if over_threshold:
         code = usage.get("unblock_code", "000000")
         stop_reason = (
-            f"\n\nHALTED AT CONTEXT THRESHOLD ({tokens}/{args.threshold})\n\n"
+            f"\n\nHALTED AT CONTEXT THRESHOLD ({tokens}/{args.threshold}): The agent must wait and not say or do anything without further user direction\n\n"
             f"{unblock_instruction(str(code))}"
         )
         if save_error:
