@@ -65,6 +65,8 @@ Update the token count blocking limit for this project to 750000.
 Remove token count blocking for this project.
 ```
 
+Tip: do not grant Claude broad or permanent permission to edit the project `.claude/` folder. The hook settings and `usage.json` live there; unrestricted access could let the agent alter or remove the gate and circumvent the block.
+
 ## Manual And Tooling Use
 
 The scripts use only the Python standard library, so they can be called directly from shell scripts, CI jobs, local tools, or custom Claude Code hooks.
@@ -136,8 +138,6 @@ The gate writes and updates:
 ```text
 <project>/.claude/usage.json
 ```
-
-Do not grant Claude broad or permanent permission to edit the project `.claude/` folder. The hook settings and `usage.json` live there; unrestricted access could let the agent alter or remove the gate and circumvent the block.
 
 When the session reaches the threshold, the hook blocks tool calls and shows:
 
