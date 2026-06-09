@@ -161,7 +161,7 @@ def emit_hard_stop(stop_reason: str) -> None:
 def unblock_instruction(code: str) -> str:
     return (
         "TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, "
-        f'type "unblock {code} <hand off instructions>". '
+        f'type "unblock {code} <hand off instructions>".\n\n'
         f'Suggested prompt: "unblock {code} write a detailed handoff.md doc to allow another agent to continue this work"'
     )
 
@@ -226,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
     if over_threshold:
         code = usage.get("unblock_code", "000000")
         stop_reason = (
-            f"HALTED AT CONTEXT THRESHOLD ({tokens}/{args.threshold}). "
+            f"\n\nHALTED AT CONTEXT THRESHOLD ({tokens}/{args.threshold})\n\n"
             f"{unblock_instruction(str(code))}"
         )
         if save_error:

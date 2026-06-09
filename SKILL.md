@@ -138,7 +138,7 @@ By default the gate uses hard-stop behavior:
 ```json
 {
   "continue": false,
-  "stopReason": "HALTED AT CONTEXT THRESHOLD (<used>/<limit>). TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type \"unblock <code> <hand off instructions>\". Suggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\""
+  "stopReason": "\\n\\nHALTED AT CONTEXT THRESHOLD (<used>/<limit>)\\n\\nTO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type \"unblock <code> <hand off instructions>\".\\n\\nSuggested prompt: \"unblock <code> write a detailed handoff.md doc to allow another agent to continue this work\""
 }
 ```
 
@@ -153,7 +153,9 @@ unblock 123456 write a handoff document
 When blocking, the gate should tell the user directly in `stopReason`:
 
 ```text
-TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type "unblock 123456 <hand off instructions>". Suggested prompt: "unblock 123456 write a detailed handoff.md doc to allow another agent to continue this work"
+TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type "unblock 123456 <hand off instructions>".
+
+Suggested prompt: "unblock 123456 write a detailed handoff.md doc to allow another agent to continue this work"
 ```
 
 The six-digit code is generated once and stored in `.claude/usage.json`. On a correct code, the prompt hook grants a small handoff allowance so the agent can write a summary or handoff document, then stop.

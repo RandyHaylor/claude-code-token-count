@@ -80,7 +80,11 @@ The gate writes and updates:
 When the session reaches the threshold, the hook blocks tool calls and shows:
 
 ```text
-HALTED AT CONTEXT THRESHOLD (<used>/<limit>). TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type "unblock <code> <hand off instructions>".
+HALTED AT CONTEXT THRESHOLD (<used>/<limit>)
+
+TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, type "unblock <code> <hand off instructions>".
+
+Suggested prompt: "unblock <code> write a detailed handoff.md doc to allow another agent to continue this work"
 ```
 
 By default the gate uses hard-stop behavior: it returns top-level `continue:false` and `stopReason`; it ends the whole turn, and the agent prints nothing. To use the older behavior that only denies the current tool call and lets the agent explain, add `--behavior deny` to the hook command.
