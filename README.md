@@ -2,11 +2,11 @@
 
 # Claude Code Token Count
 
-- Detect an early token threshold to prevent hitting context limit or compacting accidentally.
-- Report Claude Code token usage from local session JSONL files.
+- Detect an early token threshold and auto-stop/block agent to prevent hitting context limit or compacting accidentally.
+- Skill hook stops agents via a PreToolUse hook that blocks tool use and forces a stop.
 - Integrate live-session token count tracking into other tooling and hooks.
 - Claude Code session files include accurate token counts that are used to calculate token usage.
-- Can be installed as a skill and activated or adjusted by an AI agent for early token count threshold detection and agent blocking.
+- Can be installed as a skill and activated or adjusted by the claude agent for early token count threshold detection and agent blocking.
 
 ![Claude Code token gate block message](assets/claude-token-block-test.png)
 
