@@ -162,7 +162,7 @@ def unblock_instruction(code: str) -> str:
     return (
         "TO UNBLOCK AND PROVIDE HAND OFF INSTRUCTION TO THE AGENT FOR THIS SESSION, "
         f'type "unblock {code} <hand off instructions>".\n\n'
-        f'Suggested prompt: "unblock {code} write a detailed handoff.md doc to allow another agent to continue this work"'
+        f'Suggested prompt: "unblock {code} write a detailed handoff.md doc to allow another agent to continue this work"\n\n'
     )
 
 
