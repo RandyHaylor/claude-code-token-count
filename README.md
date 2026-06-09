@@ -6,7 +6,18 @@ Report Claude Code token usage from local session JSONL files and optionally ins
 
 The value Claude Code displays for context usage has matched this script's `last_usage.all_observed_tokens` in real-session checks.
 
+![Claude Code token gate block message](assets/claude-token-block-test.png)
+
 Suggested usage: install this skill once, then keep working normally. If you notice a Claude Code session's context getting high, for example above 600k tokens, ask the agent to set up the token counting guard for that project.
+
+## Index
+
+- [Install](#install)
+- [Count A Session](#count-a-session)
+- [Manual And Tooling Use](#manual-and-tooling-use)
+- [Install The Token Gate Hook](#install-the-token-gate-hook)
+- [Notes](#notes)
+- [License](#license)
 
 ## Install
 
@@ -49,6 +60,38 @@ Compact JSON:
 ```bash
 python3 scripts/get_token_count.py --cwd /path/to/project --session-id <session-id> --json
 ```
+
+## Manual And Tooling Use
+
+The scripts use only the Python standard library, so they can be called directly from shell scripts, CI jobs, local tools, or custom Claude Code hooks.
+
+Use `get_token_count.py` when you want a read-only token report:
+
+```bash
+python3 scripts/get_token_count.py --cwd /path/to/project --session-id <session-id> --json
+```
+
+The compact JSON includes:
+
+```json
+{
+  "last_usage": {
+    "all_observed_tokens": 357830,
+    "input_side_tokens": 357480
+  },
+  "usage_blocks": 133,
+  "duplicate_usage_blocks_skipped": 145
+}
+```
+
+Use `token_usage_gate.py` as a `PreToolUse` hook or any automation that can provide a Claude Code hook-style JSON payload on stdin. It reads `transcript_path`, updates `<project>/.claude/usage.json`, and emits hook control JSON on stdout:
+
+```bash
+printf '%s' '{"session_id":"...","transcript_path":"/path/to/session.jsonl","cwd":"/path/to/project","hook_event_name":"PreToolUse","tool_name":"Read","tool_input":{}}' \
+  | python3 scripts/token_usage_gate.py --threshold 900000
+```
+
+Use `unblock_via_prompt.py` as a `UserPromptSubmit` hook. It watches for `unblock <code> <instructions>`, validates the code in `<project>/.claude/usage.json`, and grants a short handoff window.
 
 ## Install The Token Gate Hook
 
