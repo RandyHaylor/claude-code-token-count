@@ -39,7 +39,7 @@ python3 scripts/get_token_count.py --cwd /path/to/project --session-id <session-
 
 ## Install The Token Gate Hook
 
-In your project, create or edit `.claude/settings.local.json`:
+In your project, create or edit `.claude/settings.local.json`. If the file already exists, merge these hooks into it and preserve any existing settings or hook commands:
 
 ```json
 {

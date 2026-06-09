@@ -82,6 +82,15 @@ The Claude Code CLI's displayed context usage has matched `last_usage.all_observ
 
 For per-project gating, write hooks into the project's `.claude/settings.local.json`. Claude Code documents `.claude/settings.local.json` as local, single-project, gitignored settings.
 
+When installing, merge conservatively:
+
+- Create `.claude/` if missing.
+- Create `.claude/settings.local.json` if missing.
+- If `.claude/settings.local.json` exists, parse the JSON and preserve all existing keys.
+- Preserve existing hook groups and hook handlers.
+- Add the `PreToolUse` and `UserPromptSubmit` handlers only if equivalent commands are not already present.
+- Do not overwrite unrelated settings or user hook commands.
+
 Example:
 
 ```json

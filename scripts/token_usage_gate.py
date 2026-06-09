@@ -110,11 +110,15 @@ def load_usage(path: Path) -> dict[str, Any]:
         }
 
 
-def save_usage(path: Path, usage: dict[str, Any]) -> None:
+def save_usage(path: Path, usage: dict[str, Any]) -> str | None:
     usage["updated_at"] = utc_now()
     tmp = path.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(usage, indent=2, sort_keys=True), encoding="utf-8")
-    tmp.replace(path)
+    try:
+        tmp.write_text(json.dumps(usage, indent=2, sort_keys=True), encoding="utf-8")
+        tmp.replace(path)
+        return None
+    except OSError as exc:
+        return str(exc)
 
 
 def emit_allow(additional_context: str | None = None, system_message: str | None = None) -> None:
@@ -179,7 +183,15 @@ def main(argv: list[str] | None = None) -> int:
 
     if over_threshold and coerce_int(usage.get("handoff_allowance_remaining", 0)) > 0:
         usage["handoff_allowance_remaining"] = coerce_int(usage.get("handoff_allowance_remaining", 0)) - 1
-        save_usage(usage_path, usage)
+        save_error = save_usage(usage_path, usage)
+        if save_error:
+            emit_deny(
+                (
+                    "Agent blocked - hit early context threshold, but the hook could not update "
+                    f"{usage_path}: {save_error}"
+                ),
+                "Agent blocked - hit early context threshold",
+            )
         emit_allow(
             additional_context=(
                 "Context threshold exceeded, but a user-authorized handoff allowance is active. "
@@ -187,7 +199,7 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
 
-    save_usage(usage_path, usage)
+    save_error = save_usage(usage_path, usage)
 
     if over_threshold:
         code = usage.get("unblock_code", "000000")
@@ -196,6 +208,8 @@ def main(argv: list[str] | None = None) -> int:
             f"Current last_usage.all_observed_tokens={tokens}; threshold={args.threshold}. "
             f"To permit a short handoff, ask the user to type: unblock {code} <handoff instructions>"
         )
+        if save_error:
+            reason += f" The hook could not update {usage_path}: {save_error}"
         emit_deny(reason, "Agent blocked - hit early context threshold")
 
     emit_allow()
