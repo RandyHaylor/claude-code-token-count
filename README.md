@@ -83,7 +83,7 @@ When the session reaches the threshold, the hook blocks tool calls and shows:
 Halted at context threshold (<used>/<limit>). To unblock and provide hand off instruction to the agent for this session, type "unblock <code> <hand off instructions>".
 ```
 
-By default the gate uses hard-stop behavior: it returns top-level `continue:false`, ends the whole turn, and the agent prints nothing. To use the older behavior that only denies the current tool call and lets the agent explain, add `--behavior deny` to the hook command.
+By default the gate uses hard-stop behavior: it returns top-level `continue:false`, `stopReason`, and a matching `systemMessage`; it ends the whole turn, and the agent prints nothing. To use the older behavior that only denies the current tool call and lets the agent explain, add `--behavior deny` to the hook command.
 
 To allow a short handoff window, submit:
 

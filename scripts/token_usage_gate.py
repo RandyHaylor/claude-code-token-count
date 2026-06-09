@@ -150,11 +150,14 @@ def emit_deny(reason: str, system_message: str) -> None:
     raise SystemExit(0)
 
 
-def emit_hard_stop(stop_reason: str) -> None:
-    print(json.dumps({
+def emit_hard_stop(stop_reason: str, system_message: str | None = None) -> None:
+    output: dict[str, Any] = {
         "continue": False,
         "stopReason": stop_reason,
-    }))
+    }
+    if system_message:
+        output["systemMessage"] = system_message
+    print(json.dumps(output))
     raise SystemExit(0)
 
 
@@ -232,7 +235,7 @@ def main(argv: list[str] | None = None) -> int:
         if save_error:
             stop_reason += f" The hook could not update {usage_path}: {save_error}"
         if args.behavior == "hard-stop":
-            emit_hard_stop(stop_reason)
+            emit_hard_stop(stop_reason, stop_reason)
         reason = (
             f"Agent blocked - hit early context threshold. "
             f"Current last_usage.all_observed_tokens={tokens}; threshold={args.threshold}. "
