@@ -77,6 +77,8 @@ The gate writes and updates:
 <project>/.claude/usage.json
 ```
 
+Do not grant Claude broad or permanent permission to edit the project `.claude/` folder. The hook settings and `usage.json` live there; unrestricted access could let the agent alter or remove the gate and circumvent the block.
+
 When the session reaches the threshold, the hook blocks tool calls and shows:
 
 ```text
